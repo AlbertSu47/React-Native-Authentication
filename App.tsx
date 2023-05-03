@@ -9,6 +9,8 @@ import React from 'react';
 import type { PropsWithChildren } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, } from 'react-native';
 import SignInScreen from './src/screens/SignInScreen/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
+import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -19,7 +21,7 @@ type SectionProps = PropsWithChildren<{
 const App = () => {
   return (
     <SafeAreaView style={styles.root}>
-      <SignInScreen />
+      <ConfirmEmailScreen />
     </SafeAreaView>
   );
 }
