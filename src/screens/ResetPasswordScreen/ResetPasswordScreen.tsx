@@ -2,18 +2,17 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 
-const ConfirmEmailScreen = () => {
-    
-    const [code, setCode] = useState('');
+const ResetPasswordScreen = () => {
 
+    const [code, setCode] = useState('');
+    const [newPassword, setNewPassword] = useState('');
     const navigation = useNavigation();
 
-    const onConfirmPressed = () => {
-        // console.warn('onConfirmPressed');
-        navigation.navigate('Home' as never)
+    const onSubmitPressed = () => {
+        // console.warn('onSubmitPressed');
+        navigation.navigate('Home' as never);
     };
 
     const onSignInPressed = () => {
@@ -21,29 +20,25 @@ const ConfirmEmailScreen = () => {
         navigation.navigate('SignIn' as never);
     };
 
-    const onResendPressed = () => {
-        console.warn("onResendPressed");
-    };
-
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
-                <Text style={styles.title}>Confirm your email</Text>
+                <Text style={styles.title}>Reset your password</Text>
 
                 <CustomInput
-                    placeholder="Enter your confirmation code"
+                    placeholder="Code"
                     value={code}
                     setValue={setCode}
                 />
-                
 
-                <CustomButton text="Confirm" onPress={onConfirmPressed} />
-
-                <CustomButton
-                    text="Resend code"
-                    onPress={onResendPressed}
-                    type="SECONDARY"
+                <CustomInput
+                    placeholder="Enter your new password"
+                    value={newPassword}
+                    setValue={setNewPassword}
                 />
+
+
+                <CustomButton text="Submit" onPress={onSubmitPressed} />
 
                 <CustomButton
                     text="Back to Sign in"
@@ -76,4 +71,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ConfirmEmailScreen;
+export default ResetPasswordScreen;

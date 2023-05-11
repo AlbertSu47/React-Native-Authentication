@@ -2,18 +2,17 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 
-const ConfirmEmailScreen = () => {
+const ForgotPasswordScreen = () => {
     
-    const [code, setCode] = useState('');
+    const [username, setUsername] = useState('');
 
     const navigation = useNavigation();
 
-    const onConfirmPressed = () => {
-        // console.warn('onConfirmPressed');
-        navigation.navigate('Home' as never)
+    const onSendPressed = () => {
+        // console.warn('onSendPressed');
+        navigation.navigate('ResetPassword' as never);
     };
 
     const onSignInPressed = () => {
@@ -21,29 +20,20 @@ const ConfirmEmailScreen = () => {
         navigation.navigate('SignIn' as never);
     };
 
-    const onResendPressed = () => {
-        console.warn("onResendPressed");
-    };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
-                <Text style={styles.title}>Confirm your email</Text>
+                <Text style={styles.title}>Reset your password</Text>
 
                 <CustomInput
-                    placeholder="Enter your confirmation code"
-                    value={code}
-                    setValue={setCode}
+                    placeholder="Username"
+                    value={username}
+                    setValue={setUsername}
                 />
                 
 
-                <CustomButton text="Confirm" onPress={onConfirmPressed} />
-
-                <CustomButton
-                    text="Resend code"
-                    onPress={onResendPressed}
-                    type="SECONDARY"
-                />
+                <CustomButton text="Send" onPress={onSendPressed} />
 
                 <CustomButton
                     text="Back to Sign in"
@@ -76,4 +66,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ConfirmEmailScreen;
+export default ForgotPasswordScreen;
