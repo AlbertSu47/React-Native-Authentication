@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native'
+import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView, } from 'react-native'
 import React, { useState } from 'react'
 import Logo from '../../../assets/images/logo_black.png';
 import CustomInput from '../../components/CustomInput';
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Icon from 'react-native-dynamic-vector-icons';
 import { Icon } from 'react-native-elements'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = () => {
     const [username, setUsername] = useState('');
@@ -17,35 +18,50 @@ const SignInScreen = () => {
     const { height } = useWindowDimensions();
     const navigation = useNavigation();
 
-    // const API_URL = 'http://13.208.146.112:8000/api';
+    const API_URL = 'http://13.208.146.112:8000/api';
 
     const onSignInPressed = () => {
         //console.warn('Sign in');
         //validate user
-        // fetch(API_URL+'/auth/login/', {
-        //     method: 'POST',
-        //     headers: {
-        //       'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //       email: 'hello123',
-        //       password: '123',
-        //     }),
-        //   })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //       // Handle response data
-        //       //setUsername(data)
-        //       //setPassword(data)
-        //       console.log(data)
-        //       navigation.navigate('Home' as never);
-        //     })
-        //     .catch((error) => {
-        //       // Handle error
-        //       console.error(error);
-        //     });
+        fetch(API_URL+'/auth/login/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: username,
+              password: password,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Handle response data
+              //setUsername(data)
+              //setPassword(data)
+              if(data.success===true){
+                console.log(data.access_token)
+                const saveData = async (key: string, value: any) => {
+                    try {
+                      await AsyncStorage.setItem(key, value);
+                      console.log('Data saved successfully');
+                    } catch (error) {
+                      console.error('Error saving data:', error);
+                    }
+                  };
+                saveData('access_token', data.access_token);
+              }else{
+                console.log(data.message)
+              }
+              console.log(data)
+              console.log(data.success)
+              navigation.navigate('Home' as never);
+            })
+            .catch((error) => {
+              // Handle error
+              console.error(error);
+            });
 
-        navigation.navigate('Home' as never);
+        //navigation.navigate('Home' as never);
     };
 
     const onForgotPasswordPressed = () => {
