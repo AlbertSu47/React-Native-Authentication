@@ -5,15 +5,51 @@ import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 
+
+
+
+
 const ConfirmEmailScreen = () => {
-    
+
+    const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
 
     const navigation = useNavigation();
 
+    const API_URL = 'http://13.208.146.112:8000/api';
+
     const onConfirmPressed = () => {
         // console.warn('onConfirmPressed');
-        navigation.navigate('Home' as never)
+
+        fetch(API_URL+'/auth/verify_code/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              code: code,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Handle response data
+              //setUsername(data)
+              //setPassword(data)
+              if(data.success===true){
+                console.log(data.message)
+              }else{
+                console.log('error')
+              }
+              console.log(data)
+              navigation.navigate('Home' as never)
+            })
+            .catch((error) => {
+              // Handle error
+              console.error(error);
+            });
+
+        // navigation.navigate('Home' as never)
     };
 
     const onSignInPressed = () => {
@@ -29,6 +65,12 @@ const ConfirmEmailScreen = () => {
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
                 <Text style={styles.title}>Confirm your email</Text>
+
+                <CustomInput
+                    placeholder="Email"
+                    value={email}
+                    setValue={setEmail}
+                />
 
                 <CustomInput
                     placeholder="Enter your confirmation code"
