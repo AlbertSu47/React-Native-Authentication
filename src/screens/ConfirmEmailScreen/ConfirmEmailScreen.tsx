@@ -4,15 +4,21 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
 
 
 
 
+const ConfirmEmailScreen = ({ route }: any) => {
 
-const ConfirmEmailScreen = () => {
-
-    const [email, setEmail] = useState('');
+    //const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
+    
+    // const route = useRoute();
+    console.log(route);
+    const { email,password }: any = route.params;
+    console.log(email);
+    console.log(password);
 
     const navigation = useNavigation();
 
@@ -42,7 +48,7 @@ const ConfirmEmailScreen = () => {
                 console.log('error')
               }
               console.log(data)
-              navigation.navigate('Home' as never)
+              navigation.navigate('PersonalInfo' as never, { email, password }as never)
             })
             .catch((error) => {
               // Handle error
@@ -69,7 +75,7 @@ const ConfirmEmailScreen = () => {
                 <CustomInput
                     placeholder="Email"
                     value={email}
-                    setValue={setEmail}
+                    editable={false}
                 />
 
                 <CustomInput

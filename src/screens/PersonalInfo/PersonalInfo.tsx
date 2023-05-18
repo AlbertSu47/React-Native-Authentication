@@ -1,79 +1,112 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, } from 'react-native'
 import React, { useState } from 'react'
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
-import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
-const PersonalInfo = () => {
-    const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordRepeat, setPasswordRepeat] = useState('');
+import { useRoute } from '@react-navigation/native';
 
+
+
+const PersonalInfo = ({ route }: any) => {
+    //const [email, setEmail] = useState('');
+    //const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('');
+    const [gender, setGender] = useState('');
+    const [birth, setBirth] = useState('');
+    const [job_id, setJob_id] = useState('');
+    const [picture_id, setPicture_id] = useState('');
+
+    //const route = useRoute();
+    //const { password  } = route.params;
+    console.log(route);
+    
+    console.log(route.params.email);
+    console.log(route.params.password);
+    
     const navigation = useNavigation();
+
+    const API_URL = 'http://13.208.146.112:8000/api';
 
     const onRegisterPressed = () => {
         // console.warn('onRegisterPressed');
-        navigation.navigate('ConfirmEmail' as never);
-    };
 
-    const onSignInPressed = () => {
-        // console.warn("onSignUpPressed");
-        navigation.navigate('SignIn' as never);
-    };
+        fetch(API_URL+'/auth/register/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: route.params.email,
+              name: username,
+              password: route.params.password,
+              gender: gender,
+              birth: birth,
+              job_id: job_id,
+              picture_id: picture_id,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Handle response data
+              //setUsername(data)
+              //setPassword(data)
+              if(data.success===true){
+                console.log(data.message)
+              }else{
+                console.log('error')
+              }
+              console.log(data)
+              navigation.navigate('SignIn' as never);
+            })
+            .catch((error) => {
+              // Handle error
+              console.error(error);
+            });
 
-    const onTermsOfUsePressed = () => {
-        console.warn("onTermsOfUsePressed");
-    };
-
-    const onPrivacyPressed = () => {
-        console.warn("onPrivacyPressed");
+        // navigation.navigate('ConfirmEmail' as never);
     };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
-                <Text style={styles.title}>Create an account</Text>
+                <Text style={styles.title}>Personal Information</Text>
 
                 <CustomInput
-                    placeholder="Username"
+                    placeholder="Name"
                     value={username}
                     setValue={setUsername}
                 />
                 <CustomInput
-                    placeholder="Email"
-                    value={email}
-                    setValue={setEmail}
+                    placeholder="Gender"
+                    value={gender}
+                    setValue={setGender}
                 />
                 <CustomInput
-                    placeholder="Password"
-                    value={password}
-                    setValue={setPassword}
-                    secureTextEntry={true}
+                    placeholder="Birth"
+                    value={birth}
+                    setValue={setBirth}
                 />
                 <CustomInput
-                    placeholder="Repeat Password"
-                    value={passwordRepeat}
-                    setValue={setPasswordRepeat}
-                    secureTextEntry={true}
+                    placeholder="JobId"
+                    value={job_id}
+                    setValue={setJob_id}
+                />
+                <CustomInput
+                    placeholder="Picture"
+                    value={picture_id}
+                    setValue={setPicture_id}
                 />
 
                 <CustomButton text="Register" onPress={onRegisterPressed} />
 
-                <Text style={styles.text}>
+                {/* <Text style={styles.text}>
                     By registering, you confirm that you accept our{' '}
                     <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and{' '}
                     <Text style={styles.link} onPress={onPrivacyPressed}>Privacy Policy.</Text>
 
-                </Text>
+                </Text> */}
 
-                <SocialSignInButtons />
 
-                <CustomButton
-                    text="Have an account? Sign in"
-                    onPress={onSignInPressed}
-                    type="TERTIARY"
-                />
 
             </View>
         </ScrollView>
@@ -97,6 +130,18 @@ const styles = StyleSheet.create({
     },
     link: {
         color: '#FDB075',
+    },
+    label: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    input: {
+        height: 40,
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 10,
+        paddingHorizontal: 10,
     },
 });
 

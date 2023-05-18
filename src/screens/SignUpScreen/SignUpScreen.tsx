@@ -39,7 +39,8 @@ const SignUpScreen = () => {
                 console.log('error')
               }
               console.log(data)
-              navigation.navigate('ConfirmEmail' as never);
+              navigation.navigate('ConfirmEmail' as never, { email: email, password: password }as never);
+
             })
             .catch((error) => {
               // Handle error
