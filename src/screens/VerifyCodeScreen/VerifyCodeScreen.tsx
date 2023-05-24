@@ -4,29 +4,36 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
-const SignUpScreen = () => {
-    //const [username, setUsername] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    //const [passwordRepeat, setPasswordRepeat] = useState('');
+import { useRoute } from '@react-navigation/native';
 
+
+
+
+const ConfirmEmailScreen = ({ route }: any) => {
+
+    //const [email, setEmail] = useState('');
+    const [code, setCode] = useState('');
     
+    // const route = useRoute();
+    console.log(route);
+    const { email }: any = route.params;
+    console.log(email);
 
     const navigation = useNavigation();
 
     const API_URL = 'http://13.208.146.112:8000/api';
 
-    const onRegisterPressed = () => {
-        // console.warn('onRegisterPressed');
+    const onConfirmPressed = () => {
+        // console.warn('onConfirmPressed');
 
-        fetch(API_URL+'/auth/send_code/', {
+        fetch(API_URL+'/auth/verify_code/', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
               email: email,
-              is_forgot_password: false,
+              code: code,
             }),
           })
             .then((response) => response.json())
@@ -40,71 +47,53 @@ const SignUpScreen = () => {
                 console.log('error')
               }
               console.log(data)
-              navigation.navigate('ConfirmEmail' as never, { email: email, password: password }as never);
-
+              navigation.navigate('ResetPassword' as never, { email:email }as never)
             })
             .catch((error) => {
               // Handle error
               console.error(error);
             });
 
-        //navigation.navigate('ConfirmEmail' as never);
+        // navigation.navigate('Home' as never)
     };
 
     const onSignInPressed = () => {
-        // console.warn("onSignUpPressed");
+        // console.warn("onSignInPressed");
         navigation.navigate('SignIn' as never);
     };
 
-    const onTermsOfUsePressed = () => {
-        console.warn("onTermsOfUsePressed");
-    };
-
-    const onPrivacyPressed = () => {
-        console.warn("onPrivacyPressed");
+    const onResendPressed = () => {
+        console.warn("onResendPressed");
     };
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.root}>
-                <Text style={styles.title}>Create an account</Text>
+                <Text style={styles.title}>Confirm your email</Text>
 
-                {/* <CustomInput
-                    placeholder="Username"
-                    value={username}
-                    setValue={setUsername}
-                /> */}
                 <CustomInput
                     placeholder="Email"
                     value={email}
-                    setValue={setEmail}
+                    editable={false}
                 />
+
                 <CustomInput
-                    placeholder="Password"
-                    value={password}
-                    setValue={setPassword}
-                    secureTextEntry={true}
+                    placeholder="Enter your confirmation code"
+                    value={code}
+                    setValue={setCode}
                 />
-                {/* <CustomInput
-                    placeholder="Repeat Password"
-                    value={passwordRepeat}
-                    setValue={setPasswordRepeat}
-                    secureTextEntry={true}
-                /> */}
+                
 
-                <CustomButton text="Register" onPress={onRegisterPressed} />
-
-                <Text style={styles.text}>
-                    By registering, you confirm that you accept our{' '}
-                    <Text style={styles.link} onPress={onTermsOfUsePressed}>Terms of Use</Text> and{' '}
-                    <Text style={styles.link} onPress={onPrivacyPressed}>Privacy Policy.</Text>
-
-                </Text>
-
-                <SocialSignInButtons />
+                <CustomButton text="Confirm" onPress={onConfirmPressed} />
 
                 <CustomButton
-                    text="Have an account? Sign in"
+                    text="Resend code"
+                    onPress={onResendPressed}
+                    type="SECONDARY"
+                />
+
+                <CustomButton
+                    text="Back to Sign in"
                     onPress={onSignInPressed}
                     type="TERTIARY"
                 />
@@ -134,4 +123,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignUpScreen
+export default ConfirmEmailScreen;

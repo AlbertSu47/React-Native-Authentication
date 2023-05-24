@@ -4,15 +4,47 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
 
-const ResetPasswordScreen = () => {
+const ResetPasswordScreen = ({ route }: any) => {
 
-    const [code, setCode] = useState('');
-    const [newPassword, setNewPassword] = useState('');
+    //const [code, setCode] = useState('');
+    const { email }: any = route.params;
+    const [password, setPassword] = useState('');
     const navigation = useNavigation();
+
+    const API_URL = 'http://13.208.146.112:8000/api';
 
     const onSubmitPressed = () => {
         // console.warn('onSubmitPressed');
-        navigation.navigate('Home' as never);
+
+        fetch(API_URL+'/account/change_password/', {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: route.params.email,
+              password: password,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // Handle response data
+              //setUsername(data)
+              //setPassword(data)
+              if(data.success===true){
+                console.log(data.message)
+              }else{
+                console.log('error')
+              }
+              console.log(data)
+              navigation.navigate('SignIn' as never);
+            })
+            .catch((error) => {
+              // Handle error
+              console.error(error);
+            });
+
+        //navigation.navigate('SignIn' as never);
     };
 
     const onSignInPressed = () => {
@@ -25,16 +57,22 @@ const ResetPasswordScreen = () => {
             <View style={styles.root}>
                 <Text style={styles.title}>Reset your password</Text>
 
-                <CustomInput
+                {/* <CustomInput
                     placeholder="Code"
                     value={code}
                     setValue={setCode}
+                /> */}
+
+                <CustomInput
+                    placeholder="Email"
+                    value={email}
+                    editable={false}
                 />
 
                 <CustomInput
                     placeholder="Enter your new password"
-                    value={newPassword}
-                    setValue={setNewPassword}
+                    value={password}
+                    setValue={setPassword}
                 />
 
 

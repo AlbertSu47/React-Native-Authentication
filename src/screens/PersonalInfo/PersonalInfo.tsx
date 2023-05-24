@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, ScrollView, } from 'react-native'
 import React, { useState } from 'react'
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
+import GenderSelector from '../../components/GenderSelector';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 
@@ -26,6 +27,11 @@ const PersonalInfo = ({ route }: any) => {
     const navigation = useNavigation();
 
     const API_URL = 'http://13.208.146.112:8000/api';
+
+    const handleSelectGender = (gender: any) => {
+        // 在這裡處理選擇的性別，可以將它存儲到狀態或數據庫中，或執行其他操作
+        console.log('Selected Gender:', gender);
+      };
 
     const onRegisterPressed = () => {
         // console.warn('onRegisterPressed');
@@ -76,6 +82,7 @@ const PersonalInfo = ({ route }: any) => {
                     value={username}
                     setValue={setUsername}
                 />
+                {/* <GenderSelector onSelectGender={handleSelectGender} /> */}
                 <CustomInput
                     placeholder="Gender"
                     value={gender}

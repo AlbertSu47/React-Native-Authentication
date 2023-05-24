@@ -7,7 +7,8 @@ import SignUpScreen from '../screens/SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from '../screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ResetPasswordScreen from '../screens/ResetPasswordScreen';
-import PersonalInfo from '../screens/PersonalInfo/PersonalInfo';
+import PersonalInfo from '../screens/PersonalInfo';
+import VerifyCodeScreen from '../screens/VerifyCodeScreen'
 import Home from '../screens/HomeScreen';
 import React from 'react';
 
@@ -23,6 +24,7 @@ const Navigation = () => {
         <Stack.Screen name='ForgotPassword' component={ForgotPasswordScreen} />
         <Stack.Screen name='ResetPassword' component={ResetPasswordScreen} />
         <Stack.Screen name='PersonalInfo' component={PersonalInfo} />
+        <Stack.Screen name='VerifyCode' component={VerifyCodeScreen} />
         <Stack.Screen name='Home' component={Home} />
 
       </Stack.Navigator>
