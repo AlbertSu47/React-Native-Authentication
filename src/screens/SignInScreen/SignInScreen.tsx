@@ -5,9 +5,6 @@ import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import Icon from 'react-native-dynamic-vector-icons';
-import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignInScreen = () => {

@@ -24,6 +24,9 @@ end
 target 'Authentication' do
   config = use_native_modules!
 
+  # Add the following line to include RNVectorIcons
+  # pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 
