@@ -5,7 +5,7 @@ export const COLORS = {
     primary: "#252c4a",
     secondary: '#1E90FF',
     accent: '#3498db',
-    
+    //#778CED
     success: '#00C851',
     error: '#ff4444',
 
