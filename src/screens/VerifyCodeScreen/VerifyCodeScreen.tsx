@@ -5,6 +5,7 @@ import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import { API_URL } from '../../../config';
 
 
 
@@ -21,12 +22,12 @@ const ConfirmEmailScreen = ({ route }: any) => {
 
     const navigation = useNavigation();
 
-    const API_URL = 'http://13.208.146.112:8000/api';
+    //const API_URL = 'http://13.208.146.112:8000/api';
 
     const onConfirmPressed = () => {
         // console.warn('onConfirmPressed');
 
-        fetch(API_URL+'/auth/verify_code/', {
+        fetch(`${API_URL}/auth/verify_code/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

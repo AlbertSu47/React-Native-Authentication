@@ -6,6 +6,7 @@ import CustomButton from '../../components/CustomButton';
 import SocialSignInButtons from '../../components/SocialSignInButtons/SocialSignInButtons';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../../../config';
 
 const SignInScreen = () => {
   const [username, setUsername] = useState('');
@@ -15,7 +16,7 @@ const SignInScreen = () => {
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
 
-  const API_URL = 'http://13.208.146.112:8000/api';
+  //const API_URL = 'http://13.208.146.112:8000/api';
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -35,7 +36,7 @@ const SignInScreen = () => {
   const onSignInPressed = () => {
     //console.warn('Sign in');
     //validate user
-    fetch(API_URL + '/auth/login/', {
+    fetch(`${API_URL}/auth/login/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,6 +58,7 @@ const SignInScreen = () => {
               await AsyncStorage.setItem(key, value);
               console.log('Data saved successfully');
               setLoggedIn(true);
+              navigation.navigate('Home' as never);
             } catch (error) {
               console.error('Error saving data:', error);
             }
@@ -64,10 +66,11 @@ const SignInScreen = () => {
           saveData('access_token', data.access_token);
         } else {
           console.log(data.message)
+          console.log('Please re-enter your password.');
         }
         console.log(data)
         console.log(data.success)
-        navigation.navigate('Home' as never);
+        //navigation.navigate('Home' as never);
       })
       .catch((error) => {
         // Handle error

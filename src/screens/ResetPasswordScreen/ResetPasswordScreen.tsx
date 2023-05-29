@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '../../../config';
 
 const ResetPasswordScreen = ({ route }: any) => {
 
@@ -11,12 +12,12 @@ const ResetPasswordScreen = ({ route }: any) => {
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
 
-    const API_URL = 'http://13.208.146.112:8000/api';
+    //const API_URL = 'http://13.208.146.112:8000/api';
 
     const onSubmitPressed = () => {
         // console.warn('onSubmitPressed');
 
-        fetch(API_URL+'/account/change_password/', {
+        fetch(`${API_URL}/account/change_password/`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json',

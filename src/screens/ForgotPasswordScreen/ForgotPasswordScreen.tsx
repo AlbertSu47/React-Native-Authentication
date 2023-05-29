@@ -3,16 +3,16 @@ import React, { useState } from 'react';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
-
+import { API_URL } from '../../../config';
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState('');
 
   const navigation = useNavigation();
 
-  const API_URL = 'http://13.208.146.112:8000/api';
+  //const API_URL = 'http://13.208.146.112:8000/api';
 
   const onSendPressed = () => {
-    fetch(API_URL + '/auth/send_code/', {
+    fetch(`${API_URL}/auth/send_code/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

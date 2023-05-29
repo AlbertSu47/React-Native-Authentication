@@ -5,7 +5,7 @@ import CustomButton from '../../components/CustomButton';
 import GenderSelector from '../../components/GenderSelector';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-
+import { API_URL } from '../../../config';
 
 
 const PersonalInfo = ({ route }: any) => {
@@ -26,7 +26,7 @@ const PersonalInfo = ({ route }: any) => {
     
     const navigation = useNavigation();
 
-    const API_URL = 'http://13.208.146.112:8000/api';
+    // const API_URL = 'http://13.208.146.112:8000/api';
 
     const handleSelectGender = (gender: any) => {
         // 在這裡處理選擇的性別，可以將它存儲到狀態或數據庫中，或執行其他操作
@@ -36,7 +36,7 @@ const PersonalInfo = ({ route }: any) => {
     const onRegisterPressed = () => {
         // console.warn('onRegisterPressed');
 
-        fetch(API_URL+'/auth/register/', {
+        fetch(`${API_URL}/auth/register/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
